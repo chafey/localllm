@@ -33,6 +33,7 @@ Case: Cooler Master MasterFrame 700
 
 # Software
 
+
 ## NIXOS
 
 boot.kernelParams = [ "mitigations=off" "amd_iommu=on" "iommu=pt" ];
@@ -76,3 +77,32 @@ NOTE: no env variables are currently being used (all are commented out)
 #VLLM_SKIP_P2P_CHECK=1
 #CUDA_VISIBLE_DEVICES=0,1
 ```
+
+## Zed Editor
+
+Configured agent panel to connect to vllm as an openai provider
+
+```
+"language_models": {
+    "openai_compatible": {
+      "VLLM": {
+        "api_url": "http://nixostr:8000/v1",
+        "available_models": [
+          {
+            "name": "Qwen35",
+            "max_tokens": 262144,
+            "max_output_tokens": 32000,
+            "max_completion_tokens": 200000,
+            "capabilities": {
+              "tools": true,
+              "images": false,
+              "parallel_tool_calls": false,
+              "prompt_cache_key": false,
+              "chat_completions": true,
+            },
+          },
+        ],
+      },
+    },
+  },
+  ```
