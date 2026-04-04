@@ -1,0 +1,31 @@
+docker run -it --rm \
+    --device nvidia.com/gpu=all \
+    -v ~/.cache/huggingface:/root/.cache/huggingface \
+    --env "NCCL_P2P_LEVEL=4" \
+    --env "SAFETENSORS_FAST_GPU=1" \
+    --env "VLLM_NVFP4_GEMM_BACKEND=flashinfer-cutlass" \
+    --env "VLLM_USE_FLASHINFER_MOE_FP4=1" \
+    --env "VLLM_ALLOW_LONG_MAX_MODEL_LEN=1" \
+    --env "VLLM_FLASHINFER_MOE_BACKEND=latency" \
+    --ipc=host \
+    --network host \
+    vllm/vllm-openai:cu130-nightly \
+    lukealonso/MiniMax-M2.5-NVFP4 \
+    --trust-remote-code \
+    --served-model-name Qwen35 \
+    --tensor-parallel-size 2 \
+    --gpu-memory-utilization 0.80 \
+    --quantization fp8 \
+    --max-num-seqs 256 \
+    --enable-chunked-prefill \
+    --enable-prefix-caching \
+    --max-num-batched-tokens 16384 \
+    --enable-auto-tool-choice \
+    --tool-call-parser minimax_m2 \
+    --reasoning-parser minimax_m2 \
+    --kv-cache-dtype fp8 \
+    --dtype auto \
+    --attention-backend FLASHINFER \
+    --load-format fastsafetensors \
+    --tensor-parallel-size 2 \
+    --port 8000
