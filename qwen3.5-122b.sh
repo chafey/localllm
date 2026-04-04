@@ -22,7 +22,7 @@ docker run -it --rm \
   --gpu-memory-utilization 0.95 \
   --kv-cache-dtype fp8 \
   --max-num-seqs 1 \
-  --max-num-batched-tokens 4224 \
+  --max-num-batched-tokens 12672 \
   --enable-expert-parallel \
   --enable-prefix-caching \
   --enable-chunked-prefill \
@@ -30,5 +30,5 @@ docker run -it --rm \
   --tool-call-parser qwen3_coder \
   --reasoning-parser qwen3 \
   --default-chat-template-kwargs '{"enable_thinking": false}' \
-  --speculative-config '{"method": "mtp", "num_speculative_tokens": 3}' \
+  --speculative-config '{"method": "mtp", "num_speculative_tokens": 2}' \
   --served-model-name Qwen35
