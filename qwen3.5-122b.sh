@@ -9,6 +9,7 @@ docker run -it --rm \
   -e NCCL_P2P_LEVEL=4 \
   -e NCCL_IB_DISABLE=1 \
   -e OMP_NUM_THREADS=8 \
+  -e VLLM_SKIP_P2P_CHECK=1 \
   -v ~/.cache/huggingface:/root/.cache/huggingface \
   -v ~/.cache/vllm:/root/.cache/vllm \
   vllm/vllm-openai:cu130-nightly \
@@ -17,18 +18,16 @@ docker run -it --rm \
   --port 8000 \
   --tensor-parallel-size 2 \
   --language-model-only \
-  --trust-remote-code \
   --max-model-len 262144 \
   --gpu-memory-utilization 0.95 \
   --kv-cache-dtype fp8 \
   --max-num-seqs 1 \
   --max-num-batched-tokens 12672 \
-  --enable-expert-parallel \
   --enable-prefix-caching \
   --enable-chunked-prefill \
   --enable-auto-tool-choice \
   --tool-call-parser qwen3_coder \
   --reasoning-parser qwen3 \
   --default-chat-template-kwargs '{"enable_thinking": false}' \
-  --speculative-config '{"method": "mtp", "num_speculative_tokens": 2}' \
+  --speculative-config '{"method": "mtp", "num_speculative_tokens": 1}' \
   --served-model-name Qwen35
