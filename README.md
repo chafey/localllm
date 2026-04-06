@@ -60,12 +60,3 @@ Configured agent panel to connect to vllm as an openai provider
     },
   },
   ```
-
-
-
-NOTES
-  --load-format fastsafetensors \
-  -e NCCL_P2P_LEVEL=SYS=4 \
-  -e NCCL_IB_DISABLE=1 \
-  -e VLLM_WORKER_MULTIPROC_METHOD=spawn \
-  --speculative-config '{"method":"mtp","num_speculative_tokens":1}' \
