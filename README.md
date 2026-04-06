@@ -2,6 +2,8 @@
 
 My local llm setup - primarily used for software development with javascript
 
+[RTX 6000 Pro Wiki](https://github.com/voipmonitor/rtx6kpro)
+
 # Hardware
 
 * Learn about the [hardware](HARDWARE.md)
