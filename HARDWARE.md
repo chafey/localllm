@@ -1,5 +1,7 @@
 # Hardware
 
+![ThreadRipper System](ThreadRipper.jpeg)
+
 * Motherboard: [ASUS PRO WS WRX90E-SAGE SE CEB](https://www.asus.com/us/motherboards-components/motherboards/workstation/pro-ws-wrx90e-sage-se/)
 * CPU: [AMD Ryzen Threadripper PRO 9965WX 24-Cores](https://www.amd.com/en/products/processors/workstations/ryzen-threadripper/9000-wx-series/amd-ryzen-threadripper-pro-9965wx.html)
 * CPU Cooler: [Arctic Freeer 4U-M](https://www.arctic.de/us/Freezer-4U-M/ACFRE00133A)

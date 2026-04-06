@@ -16,6 +16,7 @@ docker run -it --rm \
   Sehyo/Qwen3.5-122B-A10B-NVFP4 \
   --host 0.0.0.0 \
   --port 8000 \
+  --trust-remote-code \
   --tensor-parallel-size 2 \
   --language-model-only \
   --max-model-len 262144 \
