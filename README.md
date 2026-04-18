@@ -25,7 +25,7 @@ direnv allow
 VLLM hangs with tensor parallelism unless you turn on amd_iommu=on via linux kernel params:
 ```nix
 boot.kernelParams = [ "mitigations=off" "amd_iommu=on" "iommu=pt" ];
-``
+```
 
 When running > 1 RTX 6000 Pro GPU, you need to force P2P on:
 ```nix
