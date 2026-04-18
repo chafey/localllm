@@ -34,6 +34,9 @@ boot.extraModprobeConfig = ''
 '';
 ```
 
+* See [configuration.nix](configuration.nix) snippet
+
+
 ## VLLM via docker
 
 * [Qwen3.5-122B (AWQ)](qwen3.5-122b-qt.sh) 190 tok/s
