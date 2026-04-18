@@ -10,27 +10,26 @@ docker run -it --rm \
   -e NCCL_IB_DISABLE=1 \
   -e OMP_NUM_THREADS=8 \
   -e VLLM_SKIP_P2P_CHECK=1 \
+  -e VLLM_ALLOW_LONG_MAX_MODEL_LEN=1 \
   -v ~/.cache/huggingface:/root/.cache/huggingface \
   -v ~/.cache/vllm:/root/.cache/vllm \
-  vllm-chafey:v1 \
-  Sehyo/Qwen3.5-122B-A10B-NVFP4 \
+  vllm/vllm-openai:v0.19.1-cu130 \
+  RedHatAI/Qwen3.6-35B-A3B-NVFP4 \
   --host 0.0.0.0 \
   --port 8000 \
-  --trust-remote-code \
-  --tensor-parallel-size 2 \
-  --language-model-only \
   --max-model-len 262144 \
-  --gpu-memory-utilization 0.95 \
-  --kv-cache-dtype fp8 \
-  --max-num-seqs 4 \
-  --max-num-batched-tokens 12672 \
-  --enable-prefix-caching \
-  --enable-chunked-prefill \
+  --reasoning-parser qwen3 \
   --enable-auto-tool-choice \
   --tool-call-parser qwen3_coder \
-  --reasoning-parser qwen3 \
-  --default-chat-template-kwargs '{"enable_thinking": false}' \
-  --speculative-config '{"method": "mtp", "num_speculative_tokens": 4}' \
+  --enable-prefix-caching \
+  --enable-chunked-prefill \
+  --trust-remote-code \
+  --max-num-seqs 1 \
+  --max-num-batched-tokens 12672 \
+  --gpu-memory-utilization 0.95 \
+  --kv-cache-dtype fp8 \
+  --moe_backend flashinfer_cutlass  \
+  --language-model-only \
   --served-model-name Qwen35
 
-#   vllm/vllm-openai:cu130-nightly \
+#  --tensor-parallel-size 1

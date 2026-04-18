@@ -1,0 +1,39 @@
+  docker run --rm --init --ipc=host --shm-size=32g --network host \
+    --ulimit memlock=-1 --ulimit stack=67108864 \
+    --device nvidia.com/gpu=all \
+    --name vllm \
+    -v ~/.cache/huggingface:/root/.cache/huggingface \
+    -v ~/models:/models \
+    -v sglang-jit-cache:/cache/jit \
+    -e NCCL_P2P_LEVEL=SYS \
+    -e NCCL_IB_DISABLE=1 \
+    -e NCCL_MIN_NCHANNELS=8 \
+    -e NCCL_ALLOC_P2P_NET_LL_BUFFERS=1 \
+    -e SGLANG_ENABLE_SPEC_V2=True \
+    voipmonitor/sglang:cu130 \
+    python3 -m sglang.launch_server \
+      --model-path txn545/Qwen3.5-122B-A10B-NVFP4 \
+      --json-model-override-args '{"chat_template_kwargs": {"enable_thinking": false}}' \
+      --tool-call-parser qwen3_coder \
+      --served-model-name Qwen35 \
+      --tensor-parallel-size 2 \
+      --quantization modelopt_fp4 \
+      --kv-cache-dtype fp8_e4m3 \
+      --trust-remote-code \
+      --cuda-graph-max-bs 32 \
+      --max-running-requests 32 \
+      --chunked-prefill-size 16384 \
+      --mem-fraction-static 0.85 \
+      --host 0.0.0.0 --port 8000 \
+      --enable-pcie-oneshot-allreduce \
+      --enable-pcie-oneshot-allreduce-fusion \
+      --attention-backend flashinfer \
+      --fp4-gemm-backend b12x \
+      --moe-runner-backend b12x \
+      --mamba-scheduler-strategy extra_buffer \
+      --speculative-algo NEXTN \
+      --speculative-num-steps 5 \
+      --speculative-eagle-topk 1 \
+      --speculative-num-draft-tokens 6 \
+      --enable-metrics \
+      --model-loader-extra-config '{"enable_multithread_load": true, "num_threads": 16}'                                                                                    
