@@ -10,23 +10,20 @@ docker run -it --rm \
 -e NCCL_IB_DISABLE=1 \
 -e OMP_NUM_THREADS=8 \
 -e VLLM_SKIP_P2P_CHECK=1 \
--e VLLM_USE_DEEP_GEMM=0 \
--e VLLM_USE_FLASHINFER_MOE_FP16=1 \
--e VLLM_USE_FLASHINFER_SAMPLER=0 \
 -v ~/.cache/huggingface:/root/.cache/huggingface \
 -v ~/.cache/vllm:/root/.cache/vllm \
-vllm/vllm-openai:v0.19.1-cu130 \
+vllm-chafey:v1 \
 QuantTrio/Qwen3.5-122B-A10B-AWQ \
 --host 0.0.0.0 \
 --port 8000 \
 --trust-remote-code \
 --tensor-parallel-size 2 \
 --language-model-only \
---max-model-len 262144 \
 --gpu-memory-utilization 0.95 \
+--max-model-len 262144 \
+--max-num-seqs 32 \
+--max-num-batched-tokens 16384 \
 --kv-cache-dtype fp8 \
---max-num-seqs 4 \
---max-num-batched-tokens 12672 \
 --enable-prefix-caching \
 --enable-chunked-prefill \
 --enable-auto-tool-choice \

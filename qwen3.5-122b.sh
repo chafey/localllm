@@ -10,6 +10,9 @@ docker run -it --rm \
   -e NCCL_IB_DISABLE=1 \
   -e OMP_NUM_THREADS=8 \
   -e VLLM_SKIP_P2P_CHECK=1 \
+  -e VLLM_USE_DEEP_GEMM=1 \
+  -e VLLM_USE_FLASHINFER_MOE_FP4=1 \
+  -e VLLM_MEMORY_PROFILER_ESTIMATE_CUDAGRAPHS=1 \
   -v ~/.cache/huggingface:/root/.cache/huggingface \
   -v ~/.cache/vllm:/root/.cache/vllm \
   vllm-chafey:v1 \
@@ -21,7 +24,7 @@ docker run -it --rm \
   --language-model-only \
   --max-model-len 262144 \
   --gpu-memory-utilization 0.95 \
-  --kv-cache-dtype fp8 \
+  --kv-cache-dtype fp8_e4m3 \
   --max-num-seqs 4 \
   --max-num-batched-tokens 12672 \
   --enable-prefix-caching \
