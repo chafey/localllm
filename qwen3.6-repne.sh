@@ -1,0 +1,39 @@
+docker run --rm \
+    --device nvidia.com/gpu=all \
+    --name vllm \
+    --ipc=host \
+    --shm-size=32g \
+    --ulimit memlock=-1 \
+    --ulimit stack=67108864 \
+    --network host \
+    --volume ~/.cache/huggingface:/root/.cache/huggingface \
+    --volume ~/.cache/vllm:/root/.cache/vllm \
+    --volume ~/.cache/flashinfer:/root/.cache/flashinfer \
+    --volume ~/.triton/cache:/root/.triton/cache \
+    --env OMP_NUM_THREADS=8 \
+    --env VLLM_WORKER_MULTIPROC_METHOD=spawn \
+    --env VLLM_ALLREDUCE_USE_SYMM_MEM=0 \
+    --env HUGGING_FACE_HUB_TOKEN=hf_REDACTED \
+    repne/vllm:v2 \
+        -O3 \
+        --model Qwen/Qwen3.6-27B \
+        --served-model-name Qwen35 \
+        --tensor-parallel-size 2 \
+        --gpu-memory-utilization 0.80 \
+        --max-model-len 262144 \
+        --max-num-seqs 128 \
+        --max-num-batched-tokens 32768 \
+        --max-cudagraph-capture-size 256 \
+        --language-model-only \
+        --enable-auto-tool-choice \
+        --reasoning-parser qwen3 \
+        --tool-call-parser qwen3_coder \
+        --enable-prefix-caching \
+        --speculative-config.method dflash \
+        --speculative-config.model z-lab/Qwen3.6-27B-DFlash \
+        --speculative-config.num_speculative_tokens 8 \
+        --speculative-config.use_local_argmax_reduction true \
+        --speculative-config.attention_backend flashinfer \
+        --attention-backend flashinfer \
+        --default-chat-template-kwargs.preserve_thinking true
+

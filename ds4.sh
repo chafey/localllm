@@ -1,0 +1,42 @@
+docker run -it --rm \
+--name vllm \
+--device nvidia.com/gpu=all \
+--ipc=host \
+--shm-size=16g \
+--ulimit memlock=-1 \
+--ulimit stack=67108864 \
+--network host \
+-e NCCL_P2P_LEVEL=4 \
+-e NCCL_IB_DISABLE=1 \
+-e OMP_NUM_THREADS=8 \
+-e VLLM_SKIP_P2P_CHECK=1 \
+--env HF_TOKEN=${HF_TOKEN} \
+-v ~/.cache/huggingface:/root/.cache/huggingface \
+-v ~/.cache/vllm:/root/.cache/vllm \
+lavd/vllm:jasl-dsv4-5-16-26 \
+deepseek-ai/DeepSeek-V4-Flash \
+  --trust-remote-code \
+  --host 0.0.0.0 \
+  --port 8000 \
+  --served-model-name DS4 \
+  --kv-cache-dtype fp8 \
+  --block-size 256 \
+  --attention-backend FLASHINFER_MLA_SPARSE \
+  --max-model-len 393216 \
+  --max-num-batched-tokens 8192 \
+  --max-num-seqs 3 \
+  --gpu-memory-utilization 0.965 \
+  --tensor-parallel-size 2 \
+  --disable-custom-all-reduce \
+  --enable-prefix-caching \
+  --tokenizer-mode deepseek_v4 \
+  --reasoning-parser deepseek_v4 \
+  --reasoning-config '{"reasoning_parser":"deepseek_v4","reasoning_start_str":"","reasoning_end_str":""}' \
+  --tool-call-parser deepseek_v4 \
+  --enable-auto-tool-choice \
+  --no-enable-flashinfer-autotune \
+  --enable-expert-parallel \
+  --performance-mode interactivity \
+  --default-chat-template-kwargs '{"enable_thinking": true, "thinking": true}' \
+  --compilation-config '{"cudagraph_mode":"FULL_AND_PIECEWISE","custom_ops":["all"]}' \
+  --speculative-config '{"method":"mtp","num_speculative_tokens":2}'

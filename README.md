@@ -39,10 +39,8 @@ boot.extraModprobeConfig = ''
 
 ## VLLM via docker
 
-* [Qwen3.5-122B (AWQ)](qwen3.5-122b-qt.sh) 185 tok/s
-
+* [Qwen3.5-122B (AWQ)](qwen3.5-122b-qt.sh) 185 tok/sste decode tok/s
 ```
-Prefill tok/s                           Aggregate decode tok/s
 ╭──────┬─────────┬────────┬────────┬───╮╭────────────┬───────╮
 │ ctx  │  tokens │ TTFT s │  tok/s │ N ││ ctx \ conc │     1 │
 ├──────┼─────────┼────────┼────────┼───┤├────────────┼───────┤
@@ -52,6 +50,32 @@ Prefill tok/s                           Aggregate decode tok/s
 │ 64k  │  64,429 │   7.22 │  8,922 │ 1 ││ 64k        │ 174.6 │
 │ 128k │ 128,711 │  19.69 │  6,538 │ 1 ││ 128k       │ 180.4 │
 ╰──────┴─────────┴────────┴────────┴───╯╰────────────┴───────╯
+```
+
+### Bandwidth
+```
+p2pmark
+===========================================================
+  PCIe LINK SCORE:           0.90
+  (56.50 GB/s avg  /  63.0 GB/s PCIe 5.0 x16 theoretical)
+
+  DENSE INTERCONNECT SCORE:  0.99
+  (111.31 GB/s measured  /  112.99 GB/s ideal)
+
+  1.00 = perfect, 0.00 = none
+===========================================================
+```
+
+### Latency
+```
+p2pmark --latency
+===========================================================
+  Min latency:             0.83 us  (best pair, isolated)
+  Mean latency:            0.82 us  (per GPU under full load)
+
+  EFFECTIVE LATENCY:       0.83 us  (all GPUs done reading all peers)
+===========================================================
+
 ```
 
 ## Benchmarking

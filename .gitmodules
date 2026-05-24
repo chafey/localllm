@@ -1,3 +1,6 @@
 [submodule "llm-inference-bench"]
 	path = llm-inference-bench
 	url = https://github.com/voipmonitor/llm-inference-bench.git
+[submodule "p2pmark"]
+	path = p2pmark
+	url = https://github.com/lukealonso/p2pmark.git
